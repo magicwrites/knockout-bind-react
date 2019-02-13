@@ -22,7 +22,11 @@
           React.createElement(options.component, options.props),
           element
         );
-        
+
+        ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+          ReactDOM.unmountComponentAtNode(element);
+        });
+
         if (options.ref) {
           options.ref(componentInstance);
         }
