@@ -8,7 +8,11 @@
   }
 }(this, function (ko, React, ReactDOM) {
   ko.bindingHandlers.react = {
-    init: function () {
+    init: function (element) {
+      ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+        ReactDOM.unmountComponentAtNode(element);
+      });
+
       return {
         controlsDescendantBindings: true
       };
@@ -22,10 +26,6 @@
           React.createElement(options.component, options.props),
           element
         );
-
-        ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-          ReactDOM.unmountComponentAtNode(element);
-        });
 
         if (options.ref) {
           options.ref(componentInstance);
